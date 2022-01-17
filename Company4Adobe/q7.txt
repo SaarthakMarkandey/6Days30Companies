@@ -1,0 +1,48 @@
+// { Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+public:
+
+int fn(vector<vector<int>>&dp,vector<int>&A,int s,int e){
+    if(s>e)return dp[s][e]=0;
+    
+    if(s==e)return dp[s][e]=A[s];
+    if(dp[s][e]!=-1)return dp[s][e];
+    
+    int left=A[s]+min(fn(dp,A,s+2,e),fn(dp,A,s+1,e-1));
+    int right=A[e]+min(fn(dp,A,s,e-2),fn(dp,A,s+1,e-1));
+    return dp[s][e]=max(left,right);
+}
+    
+    int maxCoins(vector<int>&A,int n)
+    {
+	    //Write your code here
+	    vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+	   // memset(dp,-1,sizeof(dp));
+	   return fn(dp,A,0,n-1);
+	    
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        cin >> N;
+        vector<int>A(N);
+        for (int i = 0; i < N; i++) {
+            cin >> A[i];
+        }
+        Solution ob;
+        cout << ob.maxCoins(A, N) << "\n";
+    }
+    return 0;
+}
+  // } Driver Code Ends
