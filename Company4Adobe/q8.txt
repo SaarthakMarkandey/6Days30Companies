@@ -1,0 +1,53 @@
+// { Driver Code Starts
+//Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function template for C++
+
+class Solution{
+  public:
+    /*You are required to complete this method */
+    int power(int p){
+        int ans=1;
+        for(int i=0;i<p;i++)ans*=10;
+        return ans;
+    }
+    int atoi(string str) {
+        //Your code here
+        
+        int n=str.size();
+        int n2=n;
+        int ans=0;
+        int i=0;
+        int c=1;
+        if(str[0]=='-'){i=1;n--;c=-1;}
+        
+        // if(str[0]=='+'){i=1;n--;}
+        // cout<<i<<endl;
+        for( ;i<str.size();i++){
+            if(str[i]>=48&&str[i]<=57){
+                ans+=(str[i]-48)*power(n-1);
+                n--;
+            }
+            else return -1;
+        }
+        return ans*c;
+    }
+};
+
+// { Driver Code Starts.
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		string s;
+		cin>>s;
+		Solution ob;
+		cout<<ob.atoi(s)<<endl;
+	}
+}  // } Driver Code Ends
