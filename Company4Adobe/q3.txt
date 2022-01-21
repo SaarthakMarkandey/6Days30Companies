@@ -1,0 +1,92 @@
+// { Driver Code Starts
+//Initial Template for C++
+
+#include<bits/stdc++.h> 
+using namespace std; 
+
+
+ // } Driver Code Ends
+//User function Template for C++
+long long mod=1e9+7;
+class Solution
+{
+  public:
+  
+    int power(long long x, unsigned int y, int p) 
+{ 
+    int res = 1;     // Initialize result 
+
+    x = x % p; // Update x if it is more than or 
+                // equal to p
+ 
+    if (x == 0) return 0; // In case x is divisible by p;
+
+    while (y > 0) 
+    { 
+        // If y is odd, multiply x with result 
+        if (y & 1) 
+            res = (res*x) % p; 
+
+        // y must be even now 
+        y = y>>1; // y = y/2 
+        x = (x*x) % p; 
+    } 
+    return res; 
+} 
+unordered_map<int,int>m;
+
+long long solve(int n,int k){
+    if(n<=0)return 1;
+    
+    // long long ans=0;
+    if(m.find(n)!=m.end()){
+        return m[n];
+    }
+    
+    long long ans=0;
+    
+    if(m.find(n)!=m.end()){
+        return m[n];
+    }
+    
+    for(int i=0;i<=min(n,k);i++){
+        long long pos=power(5,i,mod);
+        
+        if(i==n){
+            ans=(ans+pos)%mod;
+            
+        }
+        else{
+            long long answernext=(21*solve(n-i-1,k))%mod;
+            ans=(ans+(pos*answernext)%mod)%mod;
+        }
+    }
+    
+    return m[n]=ans;
+}
+    int kvowelwords(int N, int K) {
+        // Write Your Code here
+        return solve(N,K)%mod;
+        
+    }
+};
+
+
+// { Driver Code Starts.
+
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int N;int K;
+        cin >>N>>K;
+        
+        Solution ob;
+        int ans = ob.kvowelwords(N,K);
+        cout << ans << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
