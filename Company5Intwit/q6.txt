@@ -1,0 +1,130 @@
+/**
+ * // This is the MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class MountainArray {
+ *   public:
+ *     int get(int index);
+ *     int length();
+ * };
+ */
+
+class Solution {
+public:
+    int findInMountainArray(int target, MountainArray &ma) {
+        
+        int n=ma.length();
+        
+        int arr[n];
+        memset(arr,-1,sizeof(arr));
+        int center,cid;
+        int s=0,e=n-1;
+        while(s<=e){
+            int mid=(s+e)/2;
+            // cout<<mid<<endl;
+            int curr=ma.get(mid);
+            arr[mid]=curr;
+            int l=0,r=0;
+            if(mid+1<n){
+                r=ma.get(mid+1);
+                arr[mid+1]=r;
+            }
+            
+            if(mid-1>=0){
+             l=ma.get(mid-1);
+            
+            arr[mid-1]=l;}
+            
+            if(l<curr&&r<curr){
+                center=curr;
+                cid=mid;
+                break;
+            }
+            else if(l>curr&&r<curr){
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+            
+        }
+        s=0,e=cid;
+        int targetid=-1;
+        
+        while(s<=e){
+            int mid=(s+e)/2;
+            
+            if(arr[mid]!=-1){
+                if(arr[mid]==target){
+                    targetid=mid;
+                    break;
+                }
+                else if(arr[mid]>target){
+                    e=mid-1;
+                }
+                else{
+                    s=mid+1;
+                }
+            }
+            else{
+                int curr=ma.get(mid);
+                arr[mid]=curr;
+                if(arr[mid]==target){
+                    targetid=mid;
+                    break;
+                }
+                else if(arr[mid]>target){
+                    e=mid-1;
+                }
+                else{
+                    s=mid+1;
+                }
+                
+            }
+            
+        }
+        
+        if(targetid!=-1)return targetid;
+        else{
+             s=cid,e=n-1;
+         targetid=-1;
+        
+        while(s<=e){
+            int mid=(s+e)/2;
+            // cout<<mid<<endl;
+            if(arr[mid]!=-1){
+                // cout<<arr[mid]<<endl;
+                if(arr[mid]==target){
+                    targetid=mid;
+                    break;
+                }
+                else if(arr[mid]>target){
+                    s=mid+1;
+                }
+                else{
+                    
+                    e=mid-1;
+                }
+            }
+            else{
+                int curr=ma.get(mid);
+                // cout<<curr<<endl;
+                arr[mid]=curr;
+                if(arr[mid]==target){
+                    targetid=mid;
+                    break;
+                }
+                else if(arr[mid]>target){
+                   s=mid+1;
+                }
+                else{
+                     e=mid-1;
+                }
+                
+            }
+            
+        }
+        }
+        // cout<<center<<" "<<cid<<endl;
+        return targetid;
+    }
+};

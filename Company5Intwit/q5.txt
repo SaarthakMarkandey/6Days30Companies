@@ -1,0 +1,45 @@
+class Solution {
+public:
+    
+    bool fn(vector<int>& nums,int mx,int m){
+        int parts=1;
+        int sum=0;
+        
+        for(int i=0;i<nums.size();i++){
+            if(sum+nums[i]<=mx){
+                sum+=nums[i];
+            }
+            else{
+                parts++;
+                sum=nums[i];
+            }
+        }
+        return parts<=m;
+    }
+    int splitArray(vector<int>& nums, int m) {
+        
+        int sum=0;
+        int mx=INT_MIN;
+        
+        for(int i=0;i<nums.size();i++){
+            sum+=nums[i];
+            mx=max(mx,nums[i]);
+        }
+        
+        int s=mx,e=sum;
+        int ans;
+        
+        while(s<=e){
+            int mid=(s+e)/2;
+            
+            if(fn(nums,mid,m)){
+                ans=mid;
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+        }
+        return ans;
+    }
+};
