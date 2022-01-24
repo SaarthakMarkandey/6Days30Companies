@@ -1,0 +1,132 @@
+class Solution {
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int n=heights.size(),m=heights[0].size();
+        vector<vector<int>> pacific(n,vector<int>(m,0));
+        vector<vector<int>> atlantic(n,vector<int>(m,0));
+        
+        vector<vector<int>> vis1(n,vector<int>(m,0));
+        vector<vector<int>> vis2(n,vector<int>(m,0));
+        int dx[4]={0,0,1,-1};
+        int dy[4]={1,-1,0,0};
+        // cout<<"fef"<<endl;
+        for(int i=0;i<n;i++){
+            if(!vis1[i][0]){
+                queue<pair<int,int>>q;
+                q.push({i,0});
+                vis1[i][0]++;
+                while(!q.empty()){
+                    pair<int,int>p=q.front();
+                    
+                    int x=p.first,y=p.second;
+                    
+                    pacific[x][y]=1;
+                    q.pop();
+                    
+                    for(int j=0;j<4;j++){
+                        int x1=x+dx[j],y1=y+dy[j];
+                        if(x1>=0&&x1<n&&y1>=0&&y1<m){
+                            if(!vis1[x1][y1]&&heights[x1][y1]>=heights[x][y]){
+                                q.push({x1,y1});
+                                vis1[x1][y1]++;
+                            }
+                        }
+                    }
+                }
+                
+            }
+            if(!vis2[i][m-1]){
+                queue<pair<int,int>>q;
+                q.push({i,m-1});
+                vis2[i][m-1]++;
+                while(!q.empty()){
+                    pair<int,int>p=q.front();
+                    
+                    int x=p.first,y=p.second;
+                    
+                    atlantic[x][y]=1;
+                    q.pop();
+                    
+                    for(int j=0;j<4;j++){
+                        int x1=x+dx[j],y1=y+dy[j];
+                        if(x1>=0&&x1<n&&y1>=0&&y1<m){
+                            if(!vis2[x1][y1]&&heights[x1][y1]>=heights[x][y]){
+                                q.push({x1,y1});
+                                vis2[x1][y1]++;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+         for(int i=0;i<m;i++){
+            if(!vis1[0][i]){
+                queue<pair<int,int>>q;
+                q.push({0,i});
+                vis1[0][i]++;
+                while(!q.empty()){
+                    pair<int,int>p=q.front();
+                    
+                    int x=p.first,y=p.second;
+                    
+                    pacific[x][y]=1;
+                    q.pop();
+                    
+                    for(int j=0;j<4;j++){
+                        int x1=x+dx[j],y1=y+dy[j];
+                        if(x1>=0&&x1<n&&y1>=0&&y1<m){
+                            if(!vis1[x1][y1]&&heights[x1][y1]>=heights[x][y]){
+                                q.push({x1,y1});
+                                vis1[x1][y1]++;
+                            }
+                        }
+                    }
+                }
+                
+            }
+             // cout<<"fef"<<endl;
+            if(!vis2[n-1][i]){
+                 // cout<<"fef"<<endl;
+                queue<pair<int,int>>q;
+                q.push({n-1,i});
+                vis2[n-1][i]++;
+                while(!q.empty()){
+                    pair<int,int>p=q.front();
+                    
+                    int x=p.first,y=p.second;
+                    
+                    atlantic[x][y]=1;
+                    q.pop();
+                    
+                    for(int j=0;j<4;j++){
+                        int x1=x+dx[j],y1=y+dy[j];
+                        if(x1>=0&&x1<n&&y1>=0&&y1<m){
+                            if(!vis2[x1][y1]&&heights[x1][y1]>=heights[x][y]){
+                                q.push({x1,y1});
+                                vis2[x1][y1]++;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+        // cout<<"fef"<<endl;
+        vector<vector<int>>ans;
+         // cout<<"fef"<<endl;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(pacific[i][j]&&atlantic[i][j]){
+                    vector<int>a;
+                    a.push_back(i);
+                    a.push_back(j);
+                    ans.push_back(a);
+                }
+            }
+        }
+        return ans;
+        
+        
+    }
+};
