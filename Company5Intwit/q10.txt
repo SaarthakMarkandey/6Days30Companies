@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int ans;
+    int find_set(vector<int>&parent,int v){
+        if(v==parent[v]){
+            return v;
+        }
+        
+        return parent[v]=find_set(parent,parent[v]);
+    }    
+    void unionset(vector<int>&parent,int a,int b){
+        a=find_set(parent,a);
+        b=find_set(parent,b);
+        
+        if(a!=b){
+            parent[b]=a;
+            ans--;
+        }
+        return;
+    }
+    int findCircleNum(vector<vector<int>>& g) {
+        int n=g.size();
+        ans=n;
+        vector<int>parent(n);
+        
+        for(int i=0;i<n;i++){
+            parent[i]=i;
+        }
+        
+        // set<int>s;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(g[i][j]){
+                    unionset(parent,i,j);
+                    // g[i][j]=0;
+                    g[j][i]=0;
+                    
+                }
+            }
+        }
+        
+        
+        return ans;
+        
+    }
+};
